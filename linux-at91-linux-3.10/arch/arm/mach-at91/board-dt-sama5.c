@@ -547,7 +547,7 @@ static void __init sama5_dt_device_init(void)
 			printk("LCD parameters updated for HDMI with 1440 x 900 resolution\n");
 
 			break;
-		default:
+		case 720:
 			/* set LCD configuration */
 			at91_tft_vga_modes[0].xres = 1280;
 			at91_tft_vga_modes[0].yres = 720;
@@ -560,12 +560,33 @@ static void __init sama5_dt_device_init(void)
 			at91_tft_vga_modes[0].vsync_len = 5;
 			at91_tft_vga_modes[0].sync = FB_SYNC_HOR_HIGH_ACT |
 						     FB_SYNC_VERT_HIGH_ACT |
-						     LCDC_LCDCFG5_VSPDLYS |
-						     LCDC_LCDCFG5_VSPDLYE;
+							 LCDC_LCDCFG5_VSPDLYS |
+							 LCDC_LCDCFG5_VSPDLYE;
 
 			ek_lcdc_data.smem_len = 1280 * 720 * 2;
 
-			printk("LCD parameters updated for HDMI with 720P60 resolution\n");
+			printk("LCD parameters updated for HDMI with 1280 x 720 resolution\n");
+
+			break;
+		default:
+			/* set LCD configuration */
+			at91_tft_vga_modes[0].xres = 480;
+			at91_tft_vga_modes[0].yres = 272;
+			at91_tft_vga_modes[0].pixclock = KHZ2PICOS(29333);
+			at91_tft_vga_modes[0].left_margin = 220;
+			at91_tft_vga_modes[0].right_margin = 210;
+			at91_tft_vga_modes[0].upper_margin = 20;
+			at91_tft_vga_modes[0].lower_margin = 70;
+			at91_tft_vga_modes[0].hsync_len = 40;
+			at91_tft_vga_modes[0].vsync_len = 5;
+			at91_tft_vga_modes[0].sync = FB_SYNC_HOR_HIGH_ACT |
+						     FB_SYNC_VERT_HIGH_ACT |
+							 LCDC_LCDCFG5_VSPDLYS |
+							 LCDC_LCDCFG5_VSPDLYE;
+
+			ek_lcdc_data.smem_len = 1280 * 720 * 2;
+
+			printk("LCD parameters updated for HDMI with 480 x 272 resolution\n");
 
 			break;
 		}

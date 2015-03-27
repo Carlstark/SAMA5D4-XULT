@@ -56,6 +56,47 @@
 				};
 			};
 
+			spi1: spi@fc018000 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				compatible = "atmel,at91rm9200-spi";
+				reg = <0xFC018000 0x100>;
+				interrupts = <38 IRQ_TYPE_LEVEL_HIGH 3>;
+				dmas = <&dma1
+				  		(AT91_XDMAC_DT_MEM_IF(0) | AT91_XDMAC_DT_PER_IF(1))
+				    	AT91_XDMAC_DT_PERID(12)>,
+					<&dma1
+						(AT91_XDMAC_DT_MEM_IF(0) | AT91_XDMAC_DT_PER_IF(1))
+						AT91_XDMAC_DT_PERID(13)>;
+				dma-names = "tx", "rx";
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_spi1>;
+				cs-gpios = <0>, <0>, <&pioB 23 0>, <0>;
+				status = "okay";
+
+				ads7846: touchscreen@2 {
+					compatible = "ti,tsc2046";
+					spi-max-frequency = <1000000>;
+					reg = <2>;
+					pinctrl-names = "default";
+					pendown-gpio = <&pioE 9 0>;
+					irq = <&pioE 9 0>;
+					ti,settle-delay-usec = /bits/ 16 <150>;
+					ti,debounce-max = /bits/ 16 <10>;
+					ti,debounce-tol = /bits/ 16 <5>;
+					ti,debounce-rep = /bits/ 16 <1>;
+					ti,keep-vref-on = /bits/ 16 <1>;
+					ti,x-min = /bits/ 16 <0>;
+					ti,x-max = /bits/ 16 <8000>;
+					ti,y-min = /bits/ 16 <0>;
+					ti,y-max = /bits/ 16 <4800>;
+					ti,x-plate-ohms = /bits/ 16 <40>;
+					ti,pressure-max = /bits/ 16 <255>;
+					linux,wakeup;
+					status = "okay";
+				};
+			};
+
 			i2c0: i2c@f8014000 {
 				status = "okay";
 
@@ -68,7 +109,7 @@
 					pinctrl-0 = <&pinctrl_sii9022a_irq>, <&pinctrl_sii9022a_reset>;
 					gpios = <&pioB 15 0>;
 
-					resolution = <720>;
+					resolution = <272>;
 
 			                i2s-fifo-routing =
 							<(0x80 | 0x0)

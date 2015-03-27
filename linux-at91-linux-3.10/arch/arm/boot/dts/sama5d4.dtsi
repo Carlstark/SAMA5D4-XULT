@@ -715,12 +715,23 @@
 							 AT91_PIOC 12 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* PC12 periph A Data bit 7 */
 					};
 				};
+
 				spi0 {
 					pinctrl_spi0: spi0-0 {
 						atmel,pins =
 							<AT91_PIOC 0 AT91_PERIPH_A AT91_PINCTRL_NONE	/* SPI0_MISO */
 							 AT91_PIOC 1 AT91_PERIPH_A AT91_PINCTRL_NONE	/* SPI0_MOSI */
 							 AT91_PIOC 2 AT91_PERIPH_A AT91_PINCTRL_NONE	/* SPI0_SPCK */
+							>;
+					};
+				};
+
+				spi1 {
+					pinctrl_spi1: spi1-0 {
+						atmel,pins =
+							<AT91_PIOB 18 AT91_PERIPH_A AT91_PINCTRL_NONE   /* SPI1_MISO */
+							 AT91_PIOB 19 AT91_PERIPH_A AT91_PINCTRL_NONE   /* SPI1_MOSI */
+							 AT91_PIOB 20 AT91_PERIPH_A AT91_PINCTRL_NONE   /* SPI1_SPCK */
 							>;
 					};
 				};
