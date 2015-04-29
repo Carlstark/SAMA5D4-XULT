@@ -1,5 +1,5 @@
 /*
- * at91-sama5d4_xplained_hdmi.dts - Device Tree file for SAMA5D4 Xplained board
+ * at91-sama5d4_xplained_hdmi.dts - Device Tree file for SAMA5D4 Xplained ULTRA
  * with HDMI support.
  *
  *  Copyright (C) 2014 Atmel,
@@ -11,7 +11,7 @@
 #include "sama5d4.dtsi"
 
 / {
-	model = "Atmel SAMA5D4 Xplained Sii9022";
+	model = "Atmel SAMA5D4 Xplained ULTRA";
 	compatible = "atmel,sama5d4-xplained", "atmel,sama5d4", "atmel,sama5", "encoder-sii9022";
 
 	chosen {
@@ -49,35 +49,34 @@
 			spi0: spi@f8010000 {
 				cs-gpios = <&pioC 3 0>, <0>, <0>, <0>;
 				status = "okay";
+				/*
 				m25p80@0 {
 					compatible = "atmel,at25df321a";
 					spi-max-frequency = <50000000>;
 					reg = <0>;
 				};
+				*/
+				spi@0 {
+					compatible = "spidev";
+					reg = <0>;
+					spi-max-frequency = <5000000>;
+				};
 			};
 
-			spi1: spi@fc018000 {
-				#address-cells = <1>;
-				#size-cells = <0>;
-				compatible = "atmel,at91rm9200-spi";
-				reg = <0xFC018000 0x100>;
-				interrupts = <38 IRQ_TYPE_LEVEL_HIGH 3>;
-				dmas = <&dma1
-				  		(AT91_XDMAC_DT_MEM_IF(0) | AT91_XDMAC_DT_PER_IF(1))
-				    	AT91_XDMAC_DT_PERID(12)>,
-					<&dma1
-						(AT91_XDMAC_DT_MEM_IF(0) | AT91_XDMAC_DT_PER_IF(1))
-						AT91_XDMAC_DT_PERID(13)>;
-				dma-names = "tx", "rx";
-				pinctrl-names = "default";
-				pinctrl-0 = <&pinctrl_spi1>;
-				cs-gpios = <0>, <0>, <&pioB 23 0>, <0>;
-				status = "okay";
+            spi1: spi@fc018000 {
+                cs-gpios = <&pioB 21 0>, <0>, <&pioB 23 0>, <0>;
+                status = "okay";
 
-				ads7846: touchscreen@2 {
+				spi@2 {
+					compatible = "spidev";
+					reg = <0>;
+					spi-max-frequency = <5000000>;
+				};
+
+				ads7846: touchscreen@0 {
 					compatible = "ti,tsc2046";
-					spi-max-frequency = <1000000>;
 					reg = <2>;
+					spi-max-frequency = <1000000>;
 					pinctrl-names = "default";
 					pendown-gpio = <&pioE 9 0>;
 					irq = <&pioE 9 0>;
@@ -95,7 +94,18 @@
 					linux,wakeup;
 					status = "okay";
 				};
-			};
+            };
+
+            spi2: spi@fc01c000 {
+                cs-gpios = <&pioD 17 1>, <0>, <0>, <0>;
+                status = "okay";
+
+				spi@0 {
+					compatible = "spidev";
+					reg = <0>;
+					spi-max-frequency = <5000000>;
+				};
+            };
 
 			i2c0: i2c@f8014000 {
 				status = "okay";
@@ -116,6 +126,12 @@
 							 0
 							 0
 							 0>;
+				};
+
+				at24@54 {
+					compatible = "at24,24c02";
+					pagesize = <16>;
+					reg = <0x54>;
 				};
 			};
 
