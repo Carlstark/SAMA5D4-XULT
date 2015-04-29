@@ -568,7 +568,7 @@ static void __init sama5_dt_device_init(void)
 			printk("LCD parameters updated for HDMI with 1280 x 720 resolution\n");
 
 			break;
-		default:
+		case 272:
 			/* set LCD configuration */
 			at91_tft_vga_modes[0].xres = 480;
 			at91_tft_vga_modes[0].yres = 272;
@@ -589,6 +589,8 @@ static void __init sama5_dt_device_init(void)
 			printk("LCD parameters updated for HDMI with 480 x 272 resolution\n");
 
 			break;
+		default:
+			printk("LCD parameters updated for HDMI with 800 x 480 resolution\n");
 		}
 	}
 
