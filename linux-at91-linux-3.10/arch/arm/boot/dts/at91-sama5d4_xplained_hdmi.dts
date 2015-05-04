@@ -171,6 +171,13 @@
 				status = "okay";
 			};
 
+			pwm0: pwm@f800c000 {
+				status = "okay";
+
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_pwm_leds>;
+			};
+
 			pinctrl@fc06a000 {
 				board {
 					pinctrl_mmc1_cd: mmc1_cd {
@@ -192,6 +199,12 @@
 					pinctrl_sii9022a_reset: sii9022a_reset {
 						atmel,pins =
 							<AT91_PIOB 15 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+					};
+				};
+				pwm0 {
+					pinctrl_pwm_leds: pwm-led {
+						atmel,pins =
+							<AT91_PIOB 27  AT91_PERIPH_C AT91_PINCTRL_PULL_UP>;
 					};
 				};
 			};
@@ -286,12 +299,22 @@
 			linux,default-trigger = "heartbeat";
 		};
 
-		/* pioD is secure, not enable yet
 		d10 {
 			label = "d10";
 			gpios = <&pioD 30 GPIO_ACTIVE_HIGH>;
-			status = "disabled";
-		}; */
+			linux,default-trigger = "none";
+		};
+	};
+
+	pwmleds {
+		compatible = "pwm-leds";
+
+		pwmD0 {
+			label = "pwmD0";
+			pwms = <&pwm0 0 1000 0>;
+			max-brightness = <255>;
+			linux,default-trigger = "none";
+		};
 	};
 
 	sound@sii9022a {
